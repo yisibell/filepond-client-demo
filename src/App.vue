@@ -1,47 +1,28 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
   <main>
-    <TheWelcome />
+    <input ref="fileInput" type="file" name="file" id="" />
   </main>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import * as filepond from 'filepond'
+import type { FilePond } from 'filepond'
+import 'filepond/dist/filepond.min.css'
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+const fileInput = ref<HTMLInputElement | null>(null)
+const pond = ref<FilePond | null>(null)
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+const init = () => {
+  if (fileInput.value) {
+    pond.value = filepond.create(fileInput.value)
+    pond.value.setOptions({
+      server: 'http://127.0.0.1/uploads'
+    })
   }
 }
-</style>
+
+onMounted(() => {
+  init()
+})
+</script>
