@@ -1,6 +1,6 @@
 <template>
   <main>
-    <input ref="fileInput" type="file" name="file" id="" />
+    <input ref="fileInput" type="file" name="filepond" id="" />
   </main>
 </template>
 
@@ -17,7 +17,9 @@ const init = () => {
   if (fileInput.value) {
     pond.value = filepond.create(fileInput.value)
     pond.value.setOptions({
-      server: 'http://127.0.0.1/uploads'
+      server: 'http://127.0.0.1:3000/upload',
+      chunkUploads: true,
+      chunkSize: 10000
     })
   }
 }
